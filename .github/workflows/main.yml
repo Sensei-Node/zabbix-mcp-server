@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - '*.md'
       - '*.toml'
+      - 'aws_cleanup.sh'
   pull_request:
     branches: 
       - main
