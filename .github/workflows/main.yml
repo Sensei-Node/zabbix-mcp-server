@@ -57,13 +57,14 @@ jobs:
         env:
           REGISTRY_URL: ${{ secrets.REGISTRY_URL }}/
         run: |
+          echo "REGISTRY_URL=${REGISTRY_URL}" >> .env
           docker compose build
           docker compose push
 
       - name: Prunning untagged Images
         id: aws-clean-ecr
         env:
-          REGISTRY_URL: ${{ steps.login-ecr.outputs.registry }}
+          REGISTRY_URL: ${{ secrets.REGISTRY_URL }}
         run: |
           ./aws_cleanup.sh
 
