@@ -55,7 +55,7 @@ jobs:
       - name: Build images 
         id: build-image
         env:
-          REGISTRY_URL: ${{ steps.login-ecr.outputs.registry }}/
+          REGISTRY_URL: ${{ secrets.REGISTRY_URL }}/
         run: |
           docker compose build
           docker compose push
