@@ -1,7 +1,8 @@
 services:
   zabbix-mcp:
     build: .
-    container_name: ${REGISTRY_URL}zabbix-mcp:${IMAGE_TAG:-latest}
+    image: ${REGISTRY_URL}zabbix-mcp:${IMAGE_TAG:-latest}
+    container_name: zabbix-mcp
     environment:
       - ZABBIX_URL=${ZABBIX_URL}
       - ZABBIX_TOKEN=${ZABBIX_TOKEN}
