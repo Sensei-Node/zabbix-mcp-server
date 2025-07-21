@@ -21,6 +21,10 @@ jobs:
   build:
     runs-on: ubuntu-22.04
 
+    env:
+      IMAGE_TAG: latest
+      REGISTRY_URL: ${{ secrets.REGISTRY_URL }}/
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -45,29 +49,17 @@ jobs:
           pip install cryptography
           pip install j2cli awscli
 
-      # Update references
-      - name: Git Submodule Update
-        run: |
-          git pull --recurse-submodules
-          git submodule init
-          git submodule update --remote --recursive
-
       - name: Build images 
         id: build-image
-        env:
-          REGISTRY_URL: ${{ secrets.REGISTRY_URL }}/
         run: |
-          echo "REGISTRY_URL=${REGISTRY_URL}" >> .env
           docker compose build
           docker compose push
 
       - name: Prunning untagged Images
         id: aws-clean-ecr
-        env:
-          REGISTRY_URL: ${{ secrets.REGISTRY_URL }}
         run: |
           ./aws_cleanup.sh
 
-      - name: Log out of Amazon ECR
-        if: always()    
-        run: docker logout ${{ steps.login-ecr.outputs.registry }}          
+      # - name: Log out of Amazon ECR
+      #   if: always()    
+      #   run: docker logout ${{ steps.login-ecr.outputs.registry }}          
