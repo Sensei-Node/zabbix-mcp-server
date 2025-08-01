@@ -571,7 +571,7 @@ def trigger_create(
     Args:
         description: Trigger description
         expression: Trigger expression
-        priority: Severity (0=not classified, 1=info, 2=warning, 3=average, 4=high, 5=disaster)
+        priority: Severity (0=not classified, 1=P4, 2=P3, 3=P2, 4=P1, 5=P0)
         status: Status (0=enabled, 1=disabled)
         comments: Additional comments
 
