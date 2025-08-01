@@ -808,7 +808,7 @@ def problem_get(
         time_from: Optional Unix timestamp to filter problems starting from this time.
         time_till: Optional Unix timestamp to filter problems up to this time.
         recent: If true, retrieve only recent (unacknowledged) problems. Default: false.
-        severities: Optional list of severity levels to filter by (0=not classified, 1=information, 2=warning, 3=average, 4=high, 5=disaster).
+        severities: Optional list of severity levels to filter by (0=not classified, 1=P4, 2=P3, 3=P2, 4=P1, 5=P0).
         limit: Optional integer to limit the number of returned problems. Strongly recommended to use this (e.g., 100) to avoid large responses that may cause failures or timeouts.
 
     Returns:
