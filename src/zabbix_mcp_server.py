@@ -959,23 +959,27 @@ def history_get(
         - Type errors are common; ensure itemids are strings in a list and timestamps are integers. If unsure, use item_get to verify item details.
         - Example usage: history_get(itemids=["23296"], history=0, time_from=1690000000, time_till=1691000000, limit=1000, sortorder="ASC") to get up to 1000 float values for an item in a time range, sorted oldest first.
     """
+
+    history_results = []
     client = get_zabbix_client()
-    params = {
-        "itemids": itemids,
-        "history": history,
-        "sortfield": sortfield,
-        "sortorder": sortorder,
-    }
+    for data_type in history:
+        params = {
+            "itemids": itemids,
+            "history": data_type,
+            "sortfield": sortfield,
+            "sortorder": sortorder,
+        }
 
-    if time_from:
-        params["time_from"] = time_from
-    if time_till:
-        params["time_till"] = time_till
-    if limit:
-        params["limit"] = limit
+        if time_from:
+            params["time_from"] = time_from
+        if time_till:
+            params["time_till"] = time_till
+        if limit:
+            params["limit"] = limit
 
-    result = client.history.get(**params)
-    return format_response(result)
+        history_results.append(client.history.get(**params))
+
+    return format_response(history_results)
 
 
 # TREND MANAGEMENT
