@@ -957,7 +957,7 @@ def history_get(
         str: JSON formatted list of history data points, each with timestamp, value, etc.
 
     Notes:
-        - Always request all data types except logs (2). Yo can change this parameter only if requested from the human operator.
+        - Always request all data types except logs (2). You can pass a different list only if requested by the human operator.
         - Queries without time_from/time_till or limit can return enormous amounts of data (e.g., years of metrics), causing failures. Always specify a narrow time range and limit.
         - Type errors are common; ensure itemids are strings in a list and timestamps are integers. If unsure, use item_get to verify item details.
         - Example usage: history_get(itemids=["23296"], history=[0, 1, 3, 4], time_from=1690000000, time_till=1691000000, limit=10, sortorder="ASC")
