@@ -930,6 +930,7 @@ def event_acknowledge(
 # HISTORY MANAGEMENT
 @mcp.tool()
 def history_get(
+    hostids: [str],
     itemids: List[str],
     history: List[int] = [0, 1, 3, 4],
     time_from: Optional[int] = None,
@@ -937,6 +938,7 @@ def history_get(
     limit: Optional[int] = 10,
     sortfield: str = "clock",
     sortorder: str = "DESC",
+    output: str = "extend",
 ) -> str:
     """Get history data from Zabbix.
 
@@ -945,6 +947,7 @@ def history_get(
     Use time ranges and limits to manage response size, as large queries can fail due to excessive data.
 
     Args:
+        hostids: Required list hosts (as strings) to get history for. Example: for multiple hosts ["678296", "21353"] or for single hosts ["412313"]
         itemids: Required list of item IDs (as strings) to get history for. Example: ["23296", "23297"]. If unknown, use item_get to find item IDs first or ask the user.
         history: Type of history data: 0=float (default), 1=string, 2=log, 3=integer, 4=text. Choose based on the item's value_type.
         time_from: Optional start time as Unix timestamp (integer). If unknown, calculate from a known date or ask the user.
@@ -952,15 +955,17 @@ def history_get(
         limit: Optional integer to limit the number of returned values. Strongly recommended (e.g., 10) to avoid failures from massive datasets.
         sortfield: Field to sort by, e.g., "clock" (default) for timestamp.
         sortorder: Sort order: "DESC" (default) for newest first, or "ASC".
+        output (extend): Return all objects. Always required.
 
     Returns:
         str: JSON formatted list of history data points, each with timestamp, value, etc.
 
     Notes:
+        - Use hostids when possible to only fetch relevant data. You can ignore this argument only if the current problem or special context justify it.
         - Always request all data types except logs (2). You can pass a different list only if requested by the human operator.
         - Queries without time_from/time_till or limit can return enormous amounts of data (e.g., years of metrics), causing failures. Always specify a narrow time range and limit.
         - Type errors are common; ensure itemids are strings in a list and timestamps are integers. If unsure, use item_get to verify item details.
-        - Example usage: history_get(itemids=["23296"], history=[0, 1, 3, 4], time_from=1690000000, time_till=1691000000, limit=10, sortorder="ASC")
+        - Example usage: history_get(hostids=["312451"], itemids=["23296"], history=[0, 1, 3, 4], time_from=1690000000, time_till=1691000000, limit=10, sortorder="ASC", output="extend")
         to get up to 10  values from all types that we usually use or that was requested for an item in a time range, sorted oldest first.
     """
 
