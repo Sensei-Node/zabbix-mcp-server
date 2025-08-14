@@ -930,7 +930,7 @@ def event_acknowledge(
 # HISTORY MANAGEMENT
 @mcp.tool()
 def history_get(
-    hostids: [str],
+    hostids: List[str],
     itemids: List[str],
     history: List[int] = [0, 1, 3, 4],
     time_from: Optional[int] = None,
